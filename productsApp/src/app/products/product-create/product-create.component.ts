@@ -14,6 +14,7 @@ export class ProductCreateComponent implements OnInit {
   selectedAvailable: boolean[] = [ false, true];
   productForm: FormGroup;
   editMode: boolean = false;
+  isLoading = false;
   product: Product;
   private productId: string;
 
@@ -27,69 +28,51 @@ export class ProductCreateComponent implements OnInit {
       if (paramMap.has('productId')) {
         this.editMode = true;
         this.productId = paramMap.get('productId');
-        this.product = this.productService.getProduct(this.productId);
+        this.isLoading = true;
+        this.productService.getProduct(this.productId).subscribe(
+          productData => {
+            this.isLoading = false;
+            this.product = {
+              id: productData._id,
+              name: productData.name,
+              price: productData.price,
+              available: productData.available
+            }
+            console.log(this.product);
+          }
+        );
       } else {
         this.editMode = false;
         this.productId = null;
       }
-    })
-    this.productForm = new FormGroup({
-      'name': new FormControl(
-        null,
-        {validators: [Validators.required, Validators.minLength(3)]}
-        ),
-      'price': new FormControl(
-        null,
-        {validators: [Validators.required]}
-        ),
-      'available': new FormControl(
-        false,
-        {validators: [Validators.required]}
-        )
     });
-    this.setForm();
-
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value.available);
-    console.log(form);
+    if (form.invalid) {
+      return;
+    }
     const product: Product = {
       id: null,
       name: form.value.name,
       price: form.value.price,
       available: form.value.available
-    }
+    };
+    this.product.name = form.value.name;
+    this.product.price = form.value.price;
+    this.product.available = form.value.available;
     if(this.editMode) {
-      this.productService.updateProduct(0, this.form.value);
-      this.router.navigate([''], {relativeTo: this.route});
+      this.productService.updateProduct(this.product);
     } else {
       this.productService.addProduct(product);
-      this.router.navigate([''], {relativeTo: this.route});
     }
     this.onClear();
   }
 
   onClear() {
-    this.form.reset();
+    this.form.resetForm();
     this.editMode = false;
     this.router.navigate([''], {relativeTo: this.route});
-  }
-
-  private setForm() {
-    let name = "";
-    let price = 0;
-    let available = false;
-    if (this.editMode) {
-      name = this.product.name;
-      price = this.product.price;
-      available = this.product.available;
-    }
-    this.productForm.setValue({
-       name: name,
-       price: price,
-       available: available
-    });
   }
 
 }

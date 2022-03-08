@@ -32,6 +32,20 @@ app.use((req, res, next) => {
   next();
 });
 
+app.put('/products/:id', (req, res, next) => {
+  const product = new Product({
+    _id: req.body.id,
+    name: req.body.name,
+    price: req.body.price,
+    available: req.body.available
+  });
+  Product.updateOne({
+    _id: req.params.id
+  }, product).then(result => {
+    res.status(200).json({ message: "Update succesfull!"});
+  })
+})
+
 app.get('/products', (req, res, next) => {
   Product.find()
     .then(products => {
@@ -44,6 +58,16 @@ app.get('/products', (req, res, next) => {
       console.log(err);
     });
 });
+
+app.get('/products/:id', (req, res, next) => {
+  Product.findById(req.params.id).then(product => {
+    if(product) {
+      res.status(200).json(product);
+    } else {
+      res.status(404).json({ message: "Product not found!"});
+    }
+  })
+})
 
 app.post('/products', (req, res, next) => {
   const product = new Product({

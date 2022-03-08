@@ -1,14 +1,17 @@
 
     <mat-card>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
       <form
-        (ngSubmit)="onSubmit(productForm)" #productForm="ngForm">
+        (ngSubmit)="onSubmit(productForm)"
+        #productForm="ngForm"
+        *ngIf="!isLoading">
         <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
           <input
             matInput
             type="text"
             name="name"
-            ngModel
+            [ngModel]="product?.name"
             required
             placeholder="Name"
             #name="ngModel">
@@ -20,7 +23,7 @@
             matInput
             type="number"
             name="price"
-            ngModel
+            [ngModel]="product?.price"
             required
             placeholder="Price(€)"
             #price="ngModel">
@@ -30,11 +33,11 @@
           <mat-label>Available</mat-label>
           <mat-select
             type="boolean"
-            ngModel
+            [ngModel]="product?.available"
             required
             name="available"
-            placeholder="Available"
-            #available="ngModel">
+            #available="ngModel"
+            placeholder="Available">
             <mat-option
               *ngFor="let available of selectedAvailable"
               [value]="available"
