@@ -1,1 +1,49 @@
-<p>product-create works!</p>
+
+    <mat-card>
+      <form
+        (ngSubmit)="onSubmit(productForm)" #productForm="ngForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="name"
+            ngModel
+            required
+            #name="ngModel">
+            <mat-error *ngIf="name.invalid">Please enter a name for this product!</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Price</mat-label>
+          <input
+            matInput
+            type="number"
+            name="price"
+            ngModel
+            required
+            #price="ngModel">
+            <mat-error *ngIf="price.invalid">Please enter a price for this product!</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Available</mat-label>
+          <mat-select
+            type="boolean"
+            ngModel
+            required
+            name="available"
+            #available="ngModel">
+            <mat-option
+              *ngFor="let available of selectedAvailable"
+              [value]="available"
+              >{{ available }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button
+          mat-raised-button
+          type="submit"
+          color="accent"
+        >Save Product</button>
+        </div>
+      </form>
+    </mat-card>

@@ -1,1 +1,12 @@
-<p>product-list works!</p>
+<mat-accordion multi="true" *ngIf="products.length > 0">
+  <mat-expansion-panel *ngFor="let product of products">
+    <mat-expansion-panel-header>
+      {{ product.name }}
+    </mat-expansion-panel-header>
+    <p>{{ product.available }}</p>
+    <p>{{ product.price }}</p>
+    <p>{{ product.dateCreated }}</p>
+    <p>{{ product.dateUpdated }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+<h1 class="info-text" *ngIf="products.length <= 0">No products added yet!</h1>
