@@ -22,7 +22,7 @@
             name="price"
             ngModel
             required
-            placeholder="Price"
+            placeholder="Price(€)"
             #price="ngModel">
             <mat-error *ngIf="price.invalid">Please enter a price for this product!</mat-error>
         </mat-form-field>
@@ -47,7 +47,13 @@
             mat-raised-button
             type="submit"
             color="accent"
+            style="margin-right: 1rem;"
         >Save Product</button>
+        <button
+          mat-raised-button
+          type="button"
+          color="warn"
+          (click)="onClear()">Cancel</button>
         </div>
       </form>
     </mat-card>

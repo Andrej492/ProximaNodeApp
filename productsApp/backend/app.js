@@ -51,10 +51,11 @@ app.post('/products', (req, res, next) => {
     price: req.body.price,
     available: req.body.available
   });
-  product.save();
-  console.log(product);
-  res.status(201).json({
-    message: 'Product added succesfully!'
+  product.save().then(createdProduct => {
+    res.status(201).json({
+    message: 'Product added succesfully!',
+    productId: createdProduct._id
+  });
   });
 });
 

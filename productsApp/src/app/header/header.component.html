@@ -1,3 +1,10 @@
 <mat-toolbar color="primary">
-    <span>My Products</span>
+    <span><a routerLink="/">My Products</a></span>
+    <span class="spacer"></span>
+    <ul>
+      <li><a
+        mat-button
+        routerLink="/create"
+        routerLinkActive="mat-accent">New Product</a></li>
+    </ul>
 </mat-toolbar>

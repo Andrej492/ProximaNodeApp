@@ -8,9 +8,10 @@
     <p>{{ product.dateCreated }}</p>
     <p>{{ product.dateUpdated }}</p>
     <mat-action-row>
-      <button
+      <a
         mat-button
-        color="primary">Edit</button>
+        color="primary"
+        [routerLink]="['edit', product.id]">Edit</a>
       <button
         mat-button
         color="warn"

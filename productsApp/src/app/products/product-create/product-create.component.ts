@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Product } from '../product.model';
 import { ProductService } from '../product.service';
 
@@ -11,13 +12,27 @@ import { ProductService } from '../product.service';
 export class ProductCreateComponent implements OnInit {
   @ViewChild('productForm') form: NgForm;
   selectedAvailable: boolean[] = [ false, true];
-  editMode: false;
   productForm: FormGroup;
+  editMode: boolean = false;
   product: Product;
+  private productId: string;
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('productId')) {
+        this.editMode = true;
+        this.productId = paramMap.get('productId');
+        this.product = this.productService.getProduct(this.productId);
+      } else {
+        this.editMode = false;
+        this.productId = null;
+      }
+    })
     this.productForm = new FormGroup({
       'name': new FormControl(
         null,
@@ -46,9 +61,11 @@ export class ProductCreateComponent implements OnInit {
       available: form.value.available
     }
     if(this.editMode) {
-      this.productService.updateProduct(0, this.form.value)
+      this.productService.updateProduct(0, this.form.value);
+      this.router.navigate([''], {relativeTo: this.route});
     } else {
       this.productService.addProduct(product);
+      this.router.navigate([''], {relativeTo: this.route});
     }
     this.onClear();
   }
@@ -56,6 +73,7 @@ export class ProductCreateComponent implements OnInit {
   onClear() {
     this.form.reset();
     this.editMode = false;
+    this.router.navigate([''], {relativeTo: this.route});
   }
 
   private setForm() {
