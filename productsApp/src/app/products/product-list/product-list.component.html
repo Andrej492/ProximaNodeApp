@@ -7,6 +7,14 @@
     <p>{{ product.price }}</p>
     <p>{{ product.dateCreated }}</p>
     <p>{{ product.dateUpdated }}</p>
+    <mat-action-row>
+      <button
+        mat-button
+        color="primary">Edit</button>
+      <button
+        mat-button
+        color="warn">Delete</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <h1 class="info-text" *ngIf="products.length <= 0">No products added yet!</h1>

@@ -40,6 +40,7 @@ export class ProductCreateComponent implements OnInit {
     console.log(form.value.available);
     console.log(form);
     const product: Product = {
+      id: null,
       name: form.value.name,
       price: form.value.price,
       available: form.value.available
@@ -47,7 +48,7 @@ export class ProductCreateComponent implements OnInit {
     if(this.editMode) {
       this.productService.updateProduct(0, this.form.value)
     } else {
-      this.productService.addProduct(this.form.value);
+      this.productService.addProduct(product);
     }
     this.onClear();
   }

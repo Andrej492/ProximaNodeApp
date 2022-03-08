@@ -10,6 +10,7 @@
             name="name"
             ngModel
             required
+            placeholder="Name"
             #name="ngModel">
             <mat-error *ngIf="name.invalid">Please enter a name for this product!</mat-error>
         </mat-form-field>
@@ -21,6 +22,7 @@
             name="price"
             ngModel
             required
+            placeholder="Price"
             #price="ngModel">
             <mat-error *ngIf="price.invalid">Please enter a price for this product!</mat-error>
         </mat-form-field>
@@ -31,6 +33,7 @@
             ngModel
             required
             name="available"
+            placeholder="Available"
             #available="ngModel">
             <mat-option
               *ngFor="let available of selectedAvailable"
@@ -40,9 +43,10 @@
         </mat-form-field>
         <div>
           <button
-          mat-raised-button
-          type="submit"
-          color="accent"
+            [disabled]="!productForm.valid"
+            mat-raised-button
+            type="submit"
+            color="accent"
         >Save Product</button>
         </div>
       </form>
