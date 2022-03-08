@@ -73,8 +73,6 @@ export class ProductService {
         updatedProducts[oldProductIndex] = product;
         this.products = updatedProducts;
         this.productsChanged.next([...this.products]);
-        console.log(this.products);
-        console.log(response);
         this.router.navigate(["/"]);
       });
   }

@@ -38,7 +38,6 @@ export class ProductCreateComponent implements OnInit {
               price: productData.price,
               available: productData.available
             }
-            console.log(this.product);
           }
         );
       } else {
