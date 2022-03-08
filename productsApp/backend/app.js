@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 
-const Product = require('./models/product');
-const { couldStartTrivia } = require('typescript');
+const productsRoutes = require('./routes/products');
 
 const app = express();
 
@@ -32,62 +31,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.put('/products/:id', (req, res, next) => {
-  const product = new Product({
-    _id: req.body.id,
-    name: req.body.name,
-    price: req.body.price,
-    available: req.body.available
-  });
-  Product.updateOne({
-    _id: req.params.id
-  }, product).then(result => {
-    res.status(200).json({ message: "Update succesfull!"});
-  })
-})
-
-app.get('/products', (req, res, next) => {
-  Product.find()
-    .then(products => {
-      res.status(200).json({
-        message: 'Products fetched succesffully!',
-        products: products
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-app.get('/products/:id', (req, res, next) => {
-  Product.findById(req.params.id).then(product => {
-    if(product) {
-      res.status(200).json(product);
-    } else {
-      res.status(404).json({ message: "Product not found!"});
-    }
-  })
-})
-
-app.post('/products', (req, res, next) => {
-  const product = new Product({
-    name: req.body.name,
-    price: req.body.price,
-    available: req.body.available
-  });
-  product.save().then(createdProduct => {
-    res.status(201).json({
-    message: 'Product added succesfully!',
-    productId: createdProduct._id
-  });
-  });
-});
-
-app.delete('/products/:id', (req, res, next) => {
-  Product.deleteOne({_id: req.params.id}).then(result => {
-    console.log(result);
-    res.status(200).json({ message: "Product deleted!" });
-  })
-});
+app.use("/products", productsRoutes);
 
 module.exports = app;
