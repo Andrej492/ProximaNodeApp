@@ -58,10 +58,10 @@ export class ProductCreateComponent implements OnInit {
       price: form.value.price,
       available: form.value.available
     };
-    this.product.name = form.value.name;
-    this.product.price = form.value.price;
-    this.product.available = form.value.available;
     if(this.editMode) {
+      this.product.name = form.value.name;
+      this.product.price = form.value.price;
+      this.product.available = form.value.available;
       this.productService.updateProduct(this.product);
     } else {
       this.productService.addProduct(product);
