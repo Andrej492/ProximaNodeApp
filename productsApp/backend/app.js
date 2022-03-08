@@ -8,7 +8,7 @@ const { couldStartTrivia } = require('typescript');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://andrejMongoDB:JDR1BhjNs3gYs1q8@cluster0.udchr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://andrejMongoDB:JDR1BhjNs3gYs1q8@cluster0.udchr.mongodb.net/proximaNodeApp?retryWrites=true&w=majority")
   .then(() => {
     console.log('Connected to Database!');
   })
@@ -31,29 +31,38 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.get('/products', (req, res, next) => {
+  Product.find()
+    .then(products => {
+      res.status(200).json({
+        message: 'Products fetched succesffully!',
+        products: products
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 app.post('/products', (req, res, next) => {
   const product = new Product({
     name: req.body.name,
     price: req.body.price,
     available: req.body.available
   });
+  product.save();
   console.log(product);
   res.status(201).json({
     message: 'Product added succesfully!'
   });
 });
 
-app.get('/products', (req, res, next) => {
-  const products = [
-    { id: 'sdah8h2b2', name: 'First computer', price: 1230, available: false },
-    { id: 'sdah324328h2b2', name: 'Second computer', price: 1030, available: false },
-    { id: 'sdah11238h2b2', name: 'Third computer', price: 2230, available: true },
-    { id: 'sddf43ah8h2b2', name: 'Fourth computer', price: 1230, available: true },
-  ];
-  res.status(200).json({
-    message: 'Products fetched succesffully!',
-    products: products
-  });
+app.delete('/products/:id', (req, res, next) => {
+  Product.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result);
+    res.status(200).json({ message: "Product deleted!" });
+  })
 });
 
 module.exports = app;

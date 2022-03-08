@@ -1,5 +1,5 @@
 <mat-accordion multi="true" *ngIf="products.length > 0">
-  <mat-expansion-panel *ngFor="let product of products">
+  <mat-expansion-panel *ngFor="let product of products; let i = index">
     <mat-expansion-panel-header>
       {{ product.name }}
     </mat-expansion-panel-header>
@@ -13,7 +13,8 @@
         color="primary">Edit</button>
       <button
         mat-button
-        color="warn">Delete</button>
+        color="warn"
+        (click)="onDeleteProduct(product.id, i)">Delete</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
