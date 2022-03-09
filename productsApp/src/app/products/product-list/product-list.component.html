@@ -24,4 +24,10 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+  *ngIf="products.length > 0"
+  [length]="totalProducts"
+  [pageSize]="productsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onChangedPage($event)"></mat-paginator>
 <h1 class="info-text" *ngIf="products.length <= 0 && !isLoading">No products added yet!</h1>

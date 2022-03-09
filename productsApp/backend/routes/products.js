@@ -28,15 +28,26 @@ const storage = multer.diskStorage({
 });
 
 router.get('', (req, res, next) => {
-  Product.find()
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const productQuery = Product.find();
+  let fetchedProducts;
+  if (pageSize && currentPage) {
+    productQuery
+      .skip(pageSize * (currentPage - 1))
+      .limit(pageSize);
+  }
+  productQuery
     .then(products => {
+      fetchedProducts = products;
+      return Product.count();
+    })
+    .then(count => {
       res.status(200).json({
         message: 'Products fetched succesffully!',
-        products: products
+        products: fetchedProducts,
+        maxProducts: count
       });
-    })
-    .catch((err) => {
-      console.log(err);
     });
 });
 

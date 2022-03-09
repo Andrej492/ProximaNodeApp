@@ -8,18 +8,19 @@ import { Router } from "@angular/router";
 @Injectable({providedIn: 'root'})
 export class ProductService {
   private products: Product[] = [];
-  productsChanged: Subject<Product[]> = new Subject<Product[]>();
+  productsChanged = new Subject<Product[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  getProducts() {
+  getProducts(productsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${productsPerPage}&page=${currentPage}`;
     this.http
-      .get<{message: string, products: any}>(
-        'http://localhost:3000/products'
+      .get<{message: string, products: any, maxProducts: number}>(
+        'http://localhost:3000/products' + queryParams
       )
       .pipe(
         map((productData) => {
-          return productData.products.map(product => {
+          return { products: productData.products.map(product => {
             return {
               id: product._id,
               name: product.name,
@@ -29,11 +30,14 @@ export class ProductService {
               dateUpdated: new Date(product.dateUpdated),
               edited: product.edited
             };
-          });
+          }), maxProducts: productData.maxProducts
+        };
       }))
-      .subscribe((transformedProducts) => {
-        this.products = transformedProducts;
+      .subscribe((transformedProductsData) => {
+        this.products = transformedProductsData.products;
         this.productsChanged.next([...this.products]);
+      }, error => {
+        console.log(error);
       });
   }
 
@@ -57,6 +61,8 @@ export class ProductService {
         const updatedProducts = this.products.filter(product => product.id !== id);
         this.products = updatedProducts;
         this.productsChanged.next([...this.products]);
+      }, err => {
+        console.log(err);
       });
   }
 
@@ -88,6 +94,8 @@ export class ProductService {
         this.products.push(response);
         this.productsChanged.next(this.products.slice());
         this.router.navigate(["/"]);
+      }, err => {
+        console.log(err);
       });
   }
 
@@ -118,6 +126,8 @@ export class ProductService {
         this.products = updatedProducts;
         this.productsChanged.next([...this.products]);
         this.router.navigate(["/"]);
+      }, err => {
+        console.log(err);
       });
   }
 }
