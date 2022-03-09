@@ -4,5 +4,6 @@ export interface Product{
   price: number,
   available: boolean,
   dateCreated?: Date,
-  dateUpdated?: Date
+  dateUpdated?: Date,
+  edited?: boolean
 }

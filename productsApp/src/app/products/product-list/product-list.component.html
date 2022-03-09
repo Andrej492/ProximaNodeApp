@@ -4,10 +4,14 @@
     <mat-expansion-panel-header>
       {{ product.name }}
     </mat-expansion-panel-header>
-    <p>{{ product.available }}</p>
-    <p>{{ product.price }}</p>
-    <p>{{ product.dateCreated }}</p>
-    <p>{{ product.dateUpdated }}</p>
+    <p>{{ 'Availability:' + product.available }}</p>
+    <p>{{ 'Price:' + product.price }}</p>
+    <div *ngIf="!product.edited">
+      <p>{{ 'Created at: ' + product.dateCreated }}</p>
+    </div>
+    <div *ngIf="product.edited">
+      <p>{{ 'Updated at: ' + product.dateUpdated }}</p>
+    </div>
     <mat-action-row>
       <a
         mat-button
@@ -20,4 +24,4 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<h1 class="info-text" *ngIf="products.length <= 0">No products added yet!</h1>
+<h1 class="info-text" *ngIf="products.length <= 0 && !isLoading">No products added yet!</h1>
