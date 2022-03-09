@@ -38,8 +38,15 @@ export class ProductService {
   }
 
   getProduct(id: string) {
-    return this.http.get< { _id: string, name: string, price: number, available: boolean }>(
-      "http://localhost:3000/products/" + id);
+    return this.http.get< {
+      _id: string,
+      name: string,
+      price: number,
+      available: boolean,
+      dateCreated: Date,
+      dateUpdated: Date,
+      edited: boolean }>
+      ("http://localhost:3000/products/" + id);
     //return this.products[index];
   }
 
@@ -59,7 +66,7 @@ export class ProductService {
     // productData.append("price", product.price);
     // productData.append("name", product.available);
     this.http
-      .post<{message: string, productId: string, productResponse: any}>(
+      .post<{message: string, productResponse: any}>(
       'http://localhost:3000/products', product
       )
       .pipe(

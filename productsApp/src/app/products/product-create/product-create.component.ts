@@ -55,7 +55,10 @@ export class ProductCreateComponent implements OnInit {
               id: productData._id,
               name: productData.name,
               price: productData.price,
-              available: productData.available
+              available: productData.available,
+              dateCreated: new Date(productData.dateCreated),
+              dateUpdated: new Date(productData.dateUpdated),
+              edited: productData.edited
             };
             this.form.setValue({
               name: this.product.name,

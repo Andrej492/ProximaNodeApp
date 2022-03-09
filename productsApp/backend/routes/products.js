@@ -50,7 +50,7 @@ router.get('/:id', (req, res, next) => {
   })
 });
 
-//router.post('', multer(storage).single("image"), (req, res, next) => {});
+//router.post('', multer({storage: storage}).single("image"), (req, res, next) => {});
 
 router.post('', (req, res, next) => {
   const timestamp = new Date().toISOString();
@@ -66,7 +66,6 @@ router.post('', (req, res, next) => {
     .then(createdProduct => {
       res.status(201).json({
       message: 'Product added succesfully!',
-      productId: createdProduct._id,
       product: createdProduct
     });
   });
