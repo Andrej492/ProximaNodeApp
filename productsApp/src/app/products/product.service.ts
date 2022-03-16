@@ -26,8 +26,8 @@ export class ProductService {
               name: product.name,
               price: product.price,
               available: product.available,
-              dateCreated: new Date(product.dateCreated),
-              dateUpdated: new Date(product.dateUpdated),
+              dateCreated: new Date(product.dateCreated).toISOString(),
+              dateUpdated: new Date(product.dateUpdated).toISOString(),
               edited: product.edited
             };
           }), maxProducts: productData.maxProducts
@@ -83,8 +83,8 @@ export class ProductService {
               name: productRes.name,
               price: productRes.price,
               available: productRes.available,
-              dateCreated: new Date(productRes.dateCreated),
-              dateUpdated: new Date(productRes.dateUpdated),
+              dateCreated: new Date(productRes.dateCreated).toISOString(),
+              dateUpdated: new Date(productRes.dateUpdated).toISOString(),
               edited: productRes.edited
             };
           });
@@ -113,7 +113,7 @@ export class ProductService {
             name: productRes.name,
             price: productRes.price,
             available: productRes.available,
-            dateUpdated: new Date(productRes.dateUpdated),
+            dateUpdated: new Date(productRes.dateUpdated).toISOString(),
             edited: productRes.edited
           };
         });
